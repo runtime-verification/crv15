@@ -1,0 +1,30 @@
+Specifications: (In First Order LTL and Past Time LTL with Counting Semantics):
+
+1. ForAll sid, socket_create(sid) IMPLIES EVENTUALLY socket_connect(sid)
+2. ForAll sid, socket_send(sid) IMPLIES EVENTUALLY socket_read(sid)
+3. ForAll sid, socket_close(sid) IMPLIES EVENTUALLY_IN_PAST socket_connect(sid)
+4. Exists>10 sid, NOT (socket_create(sid) IMPLIES EVENTUALLY socket_close(sid))
+
+Description:
+1. This specification states that for all sid, (socketIds), socket_create(sid) should be eventually followed by socket_connect(sid)
+2. This specification states that for all sids (socketIds), socket_send(sid) should be eventually 
+   followed by socket_read(sid) 
+3. This specification states that for all sids (socketIds), socket_close(tid) should be preceded somewhere in past by socket_connect(sid)
+4. This specification states that  > 10 sids (socketIds), it's not the case that socket_create(sid) is eventually followed by socket_close(sid)
+
+
+Verdicts:
+1. Violated by the program
+2. Violated by the program
+3. Violated by the program
+4. Satisfied by the program
+
+Some Important Notes (Please read):
+
+* Concrete and Abstract events are same in case of this program.
+* An event makes corresponding predicate true.                      
+  For example:                                                  
+  Event socket_create(1) makes socket_create(1) = true      
+* LTL operators have usual meaning (EVENTUALLY, ALWAYS, EVENTUALLY_IN_PAST, IMPLIES, OR) are the verbose versions of standard LTL operators
+* Instrumentation information is mentioned as comments.
+                                       

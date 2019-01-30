@@ -1,0 +1,27 @@
+#include <stdio.h>
+
+Malloc_Free {
+
+  static int num_mallocs = 0;
+  static int num_frees = 0;
+
+  event malloc() {
+    //num_mallocs++;
+    //printf("malloc@%p\n", key);
+  }
+
+  event safe_access() {
+    //printf("access@%p\n", key);
+  }
+
+  event free() {
+    //num_frees++;
+    //printf("free@%p\n", key);
+  }
+
+  ere : (malloc safe_access* free)*
+
+  @ fail {
+    printf("Warning: Memory in location %p used inappropriately!\n", ((void *) key));
+  }
+}

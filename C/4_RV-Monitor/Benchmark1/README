@@ -1,0 +1,8 @@
+Running Program
+===============
+
+To run, install make and gcc on a POSIX system and
+run make.  Then, run ./memtest.
+
+
+To clean, run make clean.

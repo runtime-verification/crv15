@@ -1,0 +1,9 @@
+Patrick Carroll <patrick@patrickomatic.com>
+C Ray Tracer
+November 2007
+
+Included with this project are the source files and a Makefile for building a
+ray tracer.  The ray tracer takes NFF-formatted geometry on standard input
+and creates a file called trace.ppm with the rendered image.  To compile
+this program, simple run "make".
+

@@ -1,0 +1,76 @@
+This example comes from the Buffer overflow benchmark models from MIT available
+at www.cs.virginia.edu/~mc2zk/security_test_suites/buffer_overflow_bench_models.tar.gz.
+
+See K. Kratkiewicz and R. Lippman, "Using a Diagnostic Corpus of C Programs to Evaluate Buffer Overflow Detection by Static Analysis Tools", 2005, for details.
+
+In this test, we are looking for detecting an invalid call to strcpy.
+One must verify that the destination string is at least as
+large as the input string.
+
+Our formal specifications are in mapped-path-spec.h.
+
+To compile the program, run "make mapped-path-bad",
+then run it with "./mapped-path-bad pathfile".
+
+The monitored trace should look like:
+
+=====
+orig_path = /tmp/aaaaaaaaaaaaaaaaaaaaaaaa
+Entering mapping_chdir with orig_path = /tmp/aaaaaaaaaaaaaaaaaaaaaaaa
+ERROR FOUND
+Copying orig_path to path....max strlen(path) = 9. strlen(path) = 29
+ALERT:pathspace[MAXPATHLEN] has been overflowed!
+so far mapped_path = /
+ERROR FOUND
+
+just after the potential invalid call to strcat
+
+path = aaaaaaaaaaaaaaaaaaaaaaaa.. calling do_elem
+ERROR FOUND
+
+just after the internal invalid call to strcat
+
+
+just after the potential invalid call to strcat
+
+mapped_path = /tmp/aaaaaaaaaaaaaaaaaaaaaaaa
+ALERT: mapped_path[MAXPATHLEN] has been overflowed!
+Copying 30 chars into buffer path[] whose size = 11
+ERROR FOUND
+
+just after an invalid call to strcpy
+
+Current directory = /tmp/aaaaaaaaaaaaaaaaaaaaaaaa
+max strlen(path) is 9, strlen(path) = 29
+Canary should be 7.  Canary = 7
+*** stack smashing detected ***: ./generated.c.out terminated
+======= Backtrace: =========
+/lib/x86_64-linux-gnu/libc.so.6(__fortify_fail+0x37)[0x7f764ff067f7]
+/lib/x86_64-linux-gnu/libc.so.6(__fortify_fail+0x0)[0x7f764ff067c0]
+./generated.c.out[0x403587]
+./generated.c.out[0x40385a]
+/lib/x86_64-linux-gnu/libc.so.6(__libc_start_main+0xed)[0x7f764fe2f30d]
+./generated.c.out[0x4008e9]
+======= Memory map: ========
+00400000-00406000 r-xp 00000000 08:05 3932396                            /localhome/julien/GIT/e-acsl/tests/crv15/Team2/Benchmark3/generated.c.out
+00605000-00606000 r--p 00005000 08:05 3932396                            /localhome/julien/GIT/e-acsl/tests/crv15/Team2/Benchmark3/generated.c.out
+00606000-00607000 rw-p 00006000 08:05 3932396                            /localhome/julien/GIT/e-acsl/tests/crv15/Team2/Benchmark3/generated.c.out
+01491000-014b2000 rw-p 00000000 00:00 0                                  [heap]
+7f764fbf8000-7f764fc0d000 r-xp 00000000 08:05 11275940                   /lib/x86_64-linux-gnu/libgcc_s.so.1
+7f764fc0d000-7f764fe0c000 ---p 00015000 08:05 11275940                   /lib/x86_64-linux-gnu/libgcc_s.so.1
+7f764fe0c000-7f764fe0d000 r--p 00014000 08:05 11275940                   /lib/x86_64-linux-gnu/libgcc_s.so.1
+7f764fe0d000-7f764fe0e000 rw-p 00015000 08:05 11275940                   /lib/x86_64-linux-gnu/libgcc_s.so.1
+7f764fe0e000-7f764ffa3000 r-xp 00000000 08:05 11275919                   /lib/x86_64-linux-gnu/libc-2.13.so
+7f764ffa3000-7f76501a2000 ---p 00195000 08:05 11275919                   /lib/x86_64-linux-gnu/libc-2.13.so
+7f76501a2000-7f76501a6000 r--p 00194000 08:05 11275919                   /lib/x86_64-linux-gnu/libc-2.13.so
+7f76501a6000-7f76501a7000 rw-p 00198000 08:05 11275919                   /lib/x86_64-linux-gnu/libc-2.13.so
+7f76501a7000-7f76501ad000 rw-p 00000000 00:00 0 
+7f76501ad000-7f76501ce000 r-xp 00000000 08:05 11275906                   /lib/x86_64-linux-gnu/ld-2.13.so
+7f76503a6000-7f76503a9000 rw-p 00000000 00:00 0 
+7f76503ca000-7f76503cd000 rw-p 00000000 00:00 0 
+7f76503cd000-7f76503ce000 r--p 00020000 08:05 11275906                   /lib/x86_64-linux-gnu/ld-2.13.so
+7f76503ce000-7f76503d0000 rw-p 00021000 08:05 11275906                   /lib/x86_64-linux-gnu/ld-2.13.so
+7fff990ed000-7fff9910e000 rw-p 00000000 00:00 0                          [stack]
+7fff991ff000-7fff99200000 r-xp 00000000 00:00 0                          [vdso]
+ffffffffff600000-ffffffffff601000 r-xp 00000000 00:00 0                  [vsyscall]
+=====

@@ -1,0 +1,13 @@
+General Info
+============
+
+See https://forge.imag.fr/plugins/mediawiki/wiki/crv15/index.php/C_Team4_Benchmark2
+
+Running Program
+===============
+
+To run, install make and gcc on a POSIX system and
+run make.  Then, run ./memtest.
+
+
+To clean, run make clean.

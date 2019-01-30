@@ -1,0 +1,17 @@
+We would like to verify that each function frees the localy allocated memory.
+The formal specification is written in size-spec.h.
+
+Just compile the monitored file with your favorite C compiler and execute the
+output.
+
+This output should contain a trace looking as:
+
+=====
+Calling function f...
+101 ERROR FOUNDS // each 101 calls to function 'f' are invalid
+The result is 101.
+Calling function g...
+The result is 10001.
+Exiting.
+ERROR FOUND // the main does not free its local allocated memory
+=====

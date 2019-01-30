@@ -1,0 +1,16 @@
+The specification we would like to verify are detailed in binary_search.h
+Just compile the file with your favorite C compiler and execute the output.
+
+This output should contain a trace looking as:
+
+=====
+searching index of 10101 (expecting 5050): 5050
+
+searching index of 10101 (expecting -1): -1
+
+ERROR FOUND (invalid array length)
+searching index of LEN (error previously reported): 50
+
+ERROR FOUND (unsorted array)
+searching index of 101 (error previously reported): -1
+=====

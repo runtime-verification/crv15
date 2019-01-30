@@ -1,0 +1,26 @@
+This example comes from the Buffer overflow benchmark models from MIT available
+at www.cs.virginia.edu/~mc2zk/security_test_suites/buffer_overflow_bench_models.tar.gz.
+
+See K. Kratkiewicz and R. Lippman, "Using a Diagnostic Corpus of C Programs to Evaluate Buffer Overflow Detection by Static Analysis Tools", 2005, for details.
+
+In this test, we are looking for detecting an invalid call to memcpy where the
+output buffer is not big enough to copy the input one. This invalid call is
+marked /*BAD*/ in iquery-bad.c.
+
+Our formal specification to memcpy which allows our tool to find the bug is in
+iquery-spec.h. It verifies that the destination buffer may contains at least __n
+characters.
+
+To compile the program, run "make iquery-bad",
+then run it with "./iquery-bad b3.in".
+
+The monitored trace should look like:
+
+=====
+opcode = 1
+req: IQuery class 1 type 1
+Copying 27 bytes from fname to anbuf which can store 2 bytes
+ERROR FOUND on memcpy
+
+just after the invalid call to memcpy
+=====

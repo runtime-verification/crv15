@@ -1,0 +1,11 @@
+To run the benchmark, first run:
+
+   make
+
+to build the program.  Then run ./c-ray-tracer < spd/sombrero.nff
+
+This will output a sombrero image in trace.ppm.  See README.original for more information.
+
+To add instrumentation, edit __RVC_Instrument.c with your instrumentation.
+
+For more information about the property, see malloc.rvm and https://forge.imag.fr/plugins/mediawiki/wiki/crv15/index.php/C_Team4_Benchmark3
